@@ -36,4 +36,16 @@ class Module
             ),
         );
     }
+
+    public function getServiceConfig()
+    {
+        return [
+            'factories' => [
+                'Application\Model\Db' => function ($serviceManager) {
+                    $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
+                    return new Model\Db($entityManager);
+                }
+            ]
+        ];
+    }
 }

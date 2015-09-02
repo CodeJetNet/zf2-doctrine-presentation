@@ -14,10 +14,6 @@ return [
                     ],
                 ],
             ],
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
             'application' => [
                 'type'          => 'Literal',
                 'options'       => [
@@ -39,6 +35,32 @@ return [
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ],
                             'defaults'    => [
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'recipes'     => [
+                'type'          => 'Literal',
+                'options'       => [
+                    'route'    => '/recipes',
+                    'defaults' => [
+                        '__NAMESPACE__' => 'Application\Controller',
+                        'controller'    => 'Recipe',
+                    ],
+                ],
+                'may_terminate' => true,
+                'child_routes'  => [
+                    'default' => [
+                        'type'    => 'Segment',
+                        'options' => [
+                            'route'       => '/[:id][/]',
+                            'constraints' => [
+                                'id' => '[0-9]+',
+                            ],
+                            'defaults'    => [
+                                'controller' => 'Recipe',
+                                'action'     => null,
                             ],
                         ],
                     ],
@@ -67,7 +89,8 @@ return [
     ],
     'controllers'     => [
         'invokables' => [
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+            'Application\Controller\Index'  => 'Application\Controller\IndexController',
+            'Application\Controller\Recipe' => 'Application\Controller\RecipeController',
         ],
     ],
     'view_manager'    => [
@@ -85,6 +108,9 @@ return [
         'template_path_stack'      => [
             __DIR__ . '/../view',
         ],
+        'strategies' => [
+            'ViewJsonStrategy',
+        ]
     ],
     // Placeholder for console routes
     'console'         => [

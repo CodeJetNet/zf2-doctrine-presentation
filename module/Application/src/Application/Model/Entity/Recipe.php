@@ -36,6 +36,13 @@ class Recipe extends AbstractEntity
      */
     protected $instructions;
 
+    public function __construct($data = null)
+    {
+        if(!is_null($data)) {
+            $this->exchangeArray($data);
+        }
+    }
+
     /**
      * @return int
      */
